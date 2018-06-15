@@ -9,14 +9,14 @@ class MyPromise {
   }
 
   resolve(data) {
-    this.status = 'fulfilled';
+    (this.status === 'pending') && (this.status = 'fulfilled');
     this.data = data;
     this.callBackArr.forEach(arr => this.then(...arr));
     return this;
   }
 
   reject(err) {
-    this.status = 'rejected';
+    (this.status === 'pending') && (this.status = 'rejected');
     this.data = err;
     return this;
   }
@@ -25,10 +25,11 @@ class MyPromise {
     if (this.status === 'pending') {
       this.callBackArr.push([callBackSuccess, callBackError]);
     } else if (this.status === 'fulfilled') {
-      callBackSuccess(this.data);
+      this.data = callBackSuccess(this.data);
     } else if (this.status === 'rejected') {
-      callBackError(this.data);
+      this.data = callBackError(this.data);
     }
+    return this;
   }
 }
 
@@ -36,6 +37,11 @@ new MyPromise((resolve, reject) => {
   setTimeout(() => {
     resolve(4);
   }, 4);
+  reject(new Error('aksdhbaksjd;lakdlabn'));
+}).then(data => {
+  return data;
+}, err => {
+  console.log(err.message);
 }).then(data => {
   console.log(data);
 });
