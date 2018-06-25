@@ -33,15 +33,32 @@ class MyPromise {
   }
 }
 
-new MyPromise((resolve, reject) => {
-  setTimeout(() => {
-    resolve(4);
+// new MyPromise((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve(4);
+//   }, 4);
+//   reject(new Error('aksdhbaksjd;lakdlabn'));
+// }).then(data => {
+//   return data;
+// }, err => {
+//   console.log(err.message);
+// }).then(data => {
+//   console.log(data);
+// });
+
+var promise = new MyPromise(function (resolve, reject) {
+  setTimeout(function () {
+    console.log('A');
+    resolve(1);
   }, 4);
-  reject(new Error('aksdhbaksjd;lakdlabn'));
-}).then(data => {
-  return data;
-}, err => {
-  console.log(err.message);
-}).then(data => {
-  console.log(data);
+});
+promise.then(function (data) {
+  return new MyPromise(function (resolve, reject) {
+    setTimeout(function () {
+      console.log('b');
+      resolve(2);
+    }, 4);
+  });
+}).then(function (data) {
+  return console.log(data);
 });
