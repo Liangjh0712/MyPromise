@@ -1,9 +1,9 @@
-const promise = new Promise((resolve: Function, reject: Function) => {
-  setTimeout(() => { resolve(1) }, 4);
-});
+let temp: Function;
 
-promise.then((data: any) => {
-  new Promise((resolve: Function, reject: Function) => {
-    setTimeout(() => { resolve(2) }, 4);
-  });
-}).then((data: any): void => console.log(data));
+if (Date.now()) {
+  temp = () => { };
+} else {
+  // temp = () => { };
+}
+
+temp();
